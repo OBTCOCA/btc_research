@@ -228,7 +228,8 @@ def predcition_analysis(Xdf,price,period,n_train):
 # 
 try:
     list_variables = st.multiselect("Choose on chain indicators", list(Urls.keys()), ["nvt", "msol"])
-    
+    train_days = st.slider('Number of days to train?', 10,252)
+
     if not list_variables:
         st.error("Please select at least one indicators.")
     else:
@@ -238,7 +239,7 @@ try:
         
         price = get_glassnode_price()
 
-        Y = predcition_analysis(Zdf,price,'%Y-%m-%d',120)
+        Y = predcition_analysis(Zdf,price,'%Y-%m-%d',train_days)
         
         Y1 = Y.cumsum().reset_index()
 
@@ -259,7 +260,8 @@ try:
         x=0.01))
 
         st.plotly_chart(f, use_container_width=True)
-        st.write('## pseudo precision:',f'{100*regression_cm(Y)}%')
+        prc = round(100*regression_cm(Y),2)
+        st.write('#### Implied Precision:',f'{prc}%')
                   
 except URLError as e:
     st.error(
