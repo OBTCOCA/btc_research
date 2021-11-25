@@ -34,7 +34,7 @@ Blockchain = ['utxo_created_count', 'utxo_created_value_sum',
 Distribution = ['exchange_net_position_change','balance_1pct_holders', 
                 'gini']
 
-Indicators = ['rhodl_ratio', 'balanced_price_usd','difficulty_ribbon_compression',
+Indicators = ['cvdd','rhodl_ratio', 'balanced_price_usd','difficulty_ribbon_compression',
                'nvt','nvts', 'cdd_supply_adjusted_binary','average_dormancy_supply_adjusted',
                'reserve_risk', 'cyd','cdd90_age_adjusted', 'sopr', 'asol','msol', 'unrealized_profit',
                'unrealized_loss', 'nupl_less_155','nupl_more_155', 'dormancy_flow',
