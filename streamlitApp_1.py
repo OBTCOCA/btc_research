@@ -67,7 +67,7 @@ for b in Blockchain:
     urls += [URLS['Blockchain']+b]
 
 for d in Distribution:
-    urls += [URLS['Blockchain']+d]
+    urls += [URLS['Distribution']+d]
 
 for i in Indicators:
     urls += [URLS['Indicators']+i]
