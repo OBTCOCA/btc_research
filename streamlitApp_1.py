@@ -243,59 +243,59 @@ try:
         st.error("Please select at least one indicators.")
     else:
         
+        if st.button('Start model'):
+            st.write('Retreiving data and processing variables')
+            try:
+                Xdf = get_glassnode_data(list_variables,Urls)
+                Zdf = process_variables(Xdf)
+                st.success('Done !')
+            except:
+                st.exception('Failed')
 
-        st.write('Retreiving data and processing variables')
-        try:
-            Xdf = get_glassnode_data(list_variables,Urls)
-            Zdf = process_variables(Xdf)
-            st.success('Done !')
-        except:
-            st.exception('Failed')
+            st.write('')
+            st.write('Retrieving prices')
+            try:
+                price = get_glassnode_price()
+                st.success('Done !')
+            except:
+                st.exception('Failed')
 
-        st.write('')
-        st.write('Retrieving prices')
-        try:
-            price = get_glassnode_price()
-            st.success('Done !')
-        except:
-            st.exception('Failed')
+            st.write('')
+            st.write('Starting prediction analysis')
+            Y,tomorrow = predcition_analysis(Zdf,price,'%Y-%m-%d',train_days)
+            
+            R = np.exp(Y.loc[str(chart_start_year):]/100)
+            init_price = price.shift(1).loc[R.index]
+            
+            Y2 = pd.concat([R.iloc[:,0]*(init_price).rename('Target'),
+                            R.iloc[:,1]*(init_price).rename('Estimated')],
+                            axis=1).reset_index()
 
-        st.write('')
-        st.write('Starting prediction analysis')
-        Y,tomorrow = predcition_analysis(Zdf,price,'%Y-%m-%d',train_days)
-        
-        R = np.exp(Y.loc[str(chart_start_year):]/100)
-        init_price = price.shift(1).loc[R.index]
-        
-        Y2 = pd.concat([R.iloc[:,0]*(init_price).rename('Target'),
-                        R.iloc[:,1]*(init_price).rename('Estimated')],
-                        axis=1).reset_index()
+            Y2.columns = ['t','Target','Estimated']
 
-        Y2.columns = ['t','Target','Estimated']
+            f = go.Figure()
+            f.add_trace(go.Scatter(x=Y2['t'], y=Y2['Target'],
+                                mode='lines',
+                                name='Target'))
+            
+            f.add_trace(go.Scatter(x=Y2['t'], y=Y2['Estimated'],
+                                mode='lines',
+                                name='Predicted'))
+            f.update_yaxes(type="log")
 
-        f = go.Figure()
-        f.add_trace(go.Scatter(x=Y2['t'], y=Y2['Target'],
-                            mode='lines',
-                            name='Target'))
-        
-        f.add_trace(go.Scatter(x=Y2['t'], y=Y2['Estimated'],
-                            mode='lines',
-                            name='Predicted'))
-        f.update_yaxes(type="log")
+            f.update_layout(legend=dict(
+            yanchor="top",
+            y=0.99,
+            xanchor="left",
+            x=0.01))
 
-        f.update_layout(legend=dict(
-        yanchor="top",
-        y=0.99,
-        xanchor="left",
-        x=0.01))
-
-        st.plotly_chart(f, use_container_width=True)
-        prc = round(100*regression_cm(Y),2)
-        st.write('#### Implied Precision:',f'{prc}%')
-        st.write('')
-        pred =  round(tomorrow,2)
-        st.write('#### Prediction for tomorrow',f'{pred}%')
-        st.write('#### Price prediction for tomorrow',f'{price.iloc[-1]*(1+pred/100)}%')
+            st.plotly_chart(f, use_container_width=True)
+            prc = round(100*regression_cm(Y),2)
+            st.write('#### Implied Precision:',f'{prc}%')
+            st.write('')
+            pred =  round(tomorrow,2)
+            st.write('#### Prediction for tomorrow',f'{pred}%')
+            st.write('#### Price prediction for tomorrow',f'{price.iloc[-1]*(1+pred/100)}%')
 
                   
 except URLError as e:
