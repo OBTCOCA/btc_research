@@ -152,6 +152,20 @@ Derivatives = ['futures_funding_rate_perpetual',
                'options_open_interest_distribution',
                'futures_open_interest_latest',
                'futures_volume_daily_latest']
+
+Institutions = ['grayscale_holdings_sum',
+                'grayscale_flows_sum',
+                'grayscale_premium_percent',
+                'grayscale_aum_sum',
+                'grayscale_market_price_usd',
+                'purpose_etf_holdings_sum',
+                'purpose_etf_flows_sum',
+                'qbtc_holdings_sum',
+                'qbtc_flows_sum',
+                'qbtc_premium_percent',
+                'qbtc_aum_sum',
+                'qbtc_market_price_usd']
+
 urls = []
 
 for a in Addresses:
@@ -180,6 +194,9 @@ for m1 in Market:
 
 for m2 in Derivatives:
     urls += [URLS['Derivatives']+m2]
+
+for m3 in Institutions:
+    urls += [URLS['Institutions']+m3]    
 
 Urls = dict()
 
