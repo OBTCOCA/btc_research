@@ -1,4 +1,4 @@
-# +
+#%%
 import streamlit as st
 import pandas as pd
 import altair as alt
@@ -18,7 +18,7 @@ from SVR_FN import SVR_predictor,forecast_ols_evaluation,regression_cm
 
 sns.set()
 
-# +
+#%%
 Addresses = ['count', 'sending_count','receiving_count', 
              'active_count','non_zero_count', 'min_1_count',
              'min_10_count', 'min_100_count','min_1k_count', 
@@ -90,7 +90,7 @@ for u in urls:
     Urls[u.split('/')[-1]] = u
 
 
-# +
+#%%
 #@st.cache
 
 def strided_app(a, L, S ):  # Window len = L, Stride len/stepsize = S
@@ -131,8 +131,8 @@ def get_glassnode_data(list_variables,Urls):
     self.set_api_key(GLASSNODE_API_KEY)
 
     features = []
-    
-    for u in urls:
+
+    for u in stqdm(urls):
         a,c,i='BTC','native','24h'
         z = self.get(u,a,i,c)
 
@@ -176,6 +176,7 @@ def process_variables(features):
 # @st.cache(show_spinner=True)
 def predcition_analysis(Xdf,price,period,n_train):    
     freq = np.unique(Xdf.index.strftime(period))
+
     StridedMonths = strided_app(freq,n_train,1)
 
     frequency = period
@@ -188,14 +189,14 @@ def predcition_analysis(Xdf,price,period,n_train):
     Y = []
     Prc = []
 
-    for i in stqdm(range(StridedMonths.shape[0])):
+    for i in stqdm(range(StridedMonths.shape[0]-1)):
 
         trainPeriod = list(StridedMonths[i][:-1])
         cvPeriod = StridedMonths[i][-1]
   
         train_price = price.shift(-1).loc[price.index.strftime(period).isin(trainPeriod)]
         cv_price = price.shift(-1).loc[price.index.strftime(period).isin([cvPeriod])]
-        pr = pd.concat([train_price,cv_price],axis = 0).sort_index()
+        pr = pd.concat([train_price,cv_price],axis = 0).sort_index().fillna(method = 'ffill')
         
         denoised_price_train = hpwrap(np.log(train_price),10)
         denoised_price_all = hpwrap(np.log(pr),10)
@@ -215,7 +216,14 @@ def predcition_analysis(Xdf,price,period,n_train):
         Prc.append({'month':cvPeriod,'prc':regression_cm(Y_)})
 
     Y = pd.concat(Y,axis = 0)
-    return Y
+
+    if Xdf.shape[1] == 1:
+        tomorrow = self.model.predict(Xdf.iloc[-1].values.reshape(-1,1))[0]
+    else:
+        tomorrow = self.model.predict(Xdf.iloc[-1].values.reshape(1,-1))[0]
+
+    return Y,tomorrow
+
 
 # +
 # price = get_glassnode_price()
@@ -225,34 +233,56 @@ def predcition_analysis(Xdf,price,period,n_train):
 # Y = predcition_analysis(Zdf,price,'%Y-%m-%d',120)
 
 # +
-# 
+#%%
 try:
     list_variables = st.multiselect("Choose on chain indicators", list(Urls.keys()), ["nvt", "msol"])
     train_days = st.slider('Number of days to train?', 10,252)
+    chart_start_year = st.slider('Start year for plotting results?', 2014,2021)
 
     if not list_variables:
         st.error("Please select at least one indicators.")
     else:
         
-        Xdf = get_glassnode_data(list_variables,Urls)
-        Zdf = process_variables(Xdf)
-        
-        price = get_glassnode_price()
 
-        Y = predcition_analysis(Zdf,price,'%Y-%m-%d',train_days)
+        st.write('Retreiving data and processing variables')
+        try:
+            Xdf = get_glassnode_data(list_variables,Urls)
+            Zdf = process_variables(Xdf)
+            st.success('Done !')
+        except:
+            st.exception('Failed')
+
+        st.write('')
+        st.write('Retrieving prices')
+        try:
+            price = get_glassnode_price()
+            st.success('Done !')
+        except:
+            st.exception('Failed')
+
+        st.write('')
+        st.write('Starting prediction analysis')
+        Y,tomorrow = predcition_analysis(Zdf,price,'%Y-%m-%d',train_days)
         
-        Y1 = Y.cumsum().reset_index()
+        R = np.exp(Y.loc[str(chart_start_year):]/100)
+        init_price = price.shift(1).loc[R.index]
+        
+        Y2 = pd.concat([R.iloc[:,0]*(init_price).rename('Target'),
+                        R.iloc[:,1]*(init_price).rename('Estimated')],
+                        axis=1).reset_index()
+
+        Y2.columns = ['t','Target','Estimated']
 
         f = go.Figure()
-        f.add_trace(go.Scatter(x=Y1['t'], y=Y1['Target'],
+        f.add_trace(go.Scatter(x=Y2['t'], y=Y2['Target'],
                             mode='lines',
                             name='Target'))
         
-        f.add_trace(go.Scatter(x=Y1['t'], y=Y1['estimated'],
+        f.add_trace(go.Scatter(x=Y2['t'], y=Y2['Estimated'],
                             mode='lines',
                             name='Predicted'))
+        f.update_yaxes(type="log")
 
-        
         f.update_layout(legend=dict(
         yanchor="top",
         y=0.99,
@@ -262,6 +292,11 @@ try:
         st.plotly_chart(f, use_container_width=True)
         prc = round(100*regression_cm(Y),2)
         st.write('#### Implied Precision:',f'{prc}%')
+        st.write('')
+        pred =  round(tomorrow,2)
+        st.write('#### Prediction for tomorrow',f'{pred}%')
+        st.write('#### Price prediction for tomorrow',f'{price.iloc[-1]*(1+pred/100)}%')
+
                   
 except URLError as e:
     st.error(
