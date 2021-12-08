@@ -243,7 +243,7 @@ try:
         st.error("Please select at least one indicators.")
     else:
         
-        if st.button('Start model'):
+        if st.button('Train Model'):
             st.write('Retreiving data and processing variables')
             try:
                 Xdf = get_glassnode_data(list_variables,Urls)
