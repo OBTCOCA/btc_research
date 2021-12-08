@@ -67,7 +67,7 @@ for b in Blockchain:
     urls += [URLS['Blockchain']+b]
 
 for d in Distribution:
-    urls += [URLS['Distribution']+d]
+    urls += [URLS['Blockchain']+d]
 
 for i in Indicators:
     urls += [URLS['Indicators']+i]
@@ -102,7 +102,7 @@ def hpwrap(x,pars):
     _,trend = sm.tsa.filters.hpfilter(x,pars)
     return trend
 
-#@st.cache(show_spinner=True)
+# @st.cache(show_spinner=True)
 def get_glassnode_price():
     GLASSNODE_API_KEY = '1vUcyF35hTk9awbNGszF0KcLuYH'
 
@@ -118,7 +118,7 @@ def get_glassnode_price():
     price = ohlc['c']
     return price
     
-#@st.cache(show_spinner=True)
+# @st.cache(show_spinner=True)
 def get_glassnode_data(list_variables,Urls):
     GLASSNODE_API_KEY = '1vUcyF35hTk9awbNGszF0KcLuYH'
     
@@ -146,7 +146,7 @@ def get_glassnode_data(list_variables,Urls):
     features = features.loc['2013':]
     return features
 
-#@st.cache(show_spinner=True)
+# @st.cache(show_spinner=True)
 def process_variables(features):
     processed_features = []
     for c in features.columns:
@@ -173,7 +173,7 @@ def process_variables(features):
     processed_features = pd.concat(processed_features,axis = 1)
     return processed_features
 
-#@st.cache(show_spinner=True)
+# @st.cache(show_spinner=True)
 def predcition_analysis(Xdf,price,period,n_train):    
     freq = np.unique(Xdf.index.strftime(period))
     StridedMonths = strided_app(freq,n_train,1)
