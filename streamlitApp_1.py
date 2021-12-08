@@ -34,13 +34,83 @@ Blockchain = ['utxo_created_count', 'utxo_created_value_sum',
 Distribution = ['exchange_net_position_change','balance_1pct_holders', 
                 'gini']
 
-Indicators = ['cvdd','rhodl_ratio', 'balanced_price_usd','difficulty_ribbon_compression',
-               'nvt','nvts', 'cdd_supply_adjusted_binary','average_dormancy_supply_adjusted',
-               'reserve_risk', 'cyd','cdd90_age_adjusted', 'sopr', 'asol','msol', 'unrealized_profit',
-               'unrealized_loss', 'nupl_less_155','nupl_more_155', 'dormancy_flow',
-               'net_realized_profit_loss','realized_profit_loss_ratio','stock_to_flow_deflection', 'realized_loss',
-               'sol_1h', 'sol_1h_24h', 'sol_1d_1w','sol_1w_1m', 'sol_1m_3m', 'sol_3m_6m','sol_6m_12m', 
-               'sol_1y_2y', 'sol_2y_3y','sol_7y_10y']
+Indicators = ['rhodl_ratio',
+              'cvdd',
+              'balanced_price_usd',
+              'hash_ribbon',
+              'difficulty_ribbon',
+              'difficulty_ribbon_compression',
+              'nvt',
+              'nvts',
+              'velocity',
+              'nvt_entity_adjusted',
+              'cdd_supply_adjusted',
+              'cdd_supply_adjusted_binary',
+              'average_dormancy_supply_adjusted',
+              'spent_output_price_distribution_ath',
+              'spent_output_price_distribution_percent',
+              'puell_multiple',
+              'sopr_adjusted',
+              'reserve_risk',
+              'sopr_less_155',
+              'sopr_more_155',
+              'hodler_net_position_change',
+              'hodled_lost_coins',
+              'cyd',
+              'cyd_supply_adjusted',
+              'cyd_account_based',
+              'cyd_account_based_supply_adjusted',
+              'cdd90_age_adjusted',
+              'cdd90_account_based_age_adjusted',
+              'sopr',
+              'cdd',
+              'asol',
+              'msol',
+              'average_dormancy',
+              'liveliness',
+              'unrealized_profit',
+              'unrealized_loss',
+              'net_unrealized_profit_loss',
+              'nupl_less_155',
+              'nupl_more_155',
+              'sopr_account_based',
+              'cdd_account_based',
+              'asol_account_based',
+              'msol_account_based',
+              'dormancy_account_based',
+              'dormancy_flow',
+              'liveliness_account_based',
+              'mvrv_account_based',
+              'rcap_account_based',
+              'unrealized_profit_account_based'
+              'unrealized_loss_account_based',
+              'net_unrealized_profit_loss_account_based',
+              'nupl_less_155_account_based',
+              'nupl_more_155_account_based',
+              'net_realized_profit_loss',
+              'realized_profit_loss_ratio',
+              'stock_to_flow_ratio',
+              'stock_to_flow_deflection',
+              'realized_profit',
+              'realized_loss',
+              'ssr',
+              'ssr_oscillator', 
+              'utxo_realized_price_distribution_ath',
+              'utxo_realized_price_distribution_percent',
+              'soab',
+              'sol_1h',
+              'sol_1h_24h',
+              'sol_1d_1w',
+              'sol_1w_1m',
+              'sol_1m_3m',
+              'sol_3m_6m', 
+              'sol_6m_12m',
+              'sol_1y_2y',
+              'sol_2y_3y',
+              'sol_3y_5y',
+              'sol_5y_7y',
+              'sol_7y_10y',
+              'sol_more_10y']
 
 Market = ['price_drawdown_relative','deltacap_usd', 'marketcap_usd', 'mvrv','mvrv_z_score']
 
@@ -58,6 +128,44 @@ Transactions = ['size_mean', 'size_sum','transfers_volume_adjusted_sum',
                 'transfers_to_exchanges_count',
                 'transfers_from_exchanges_count']
 
+Derivatives = ['futures_funding_rate_perpetual',
+               'futures_funding_rate_perpetual_all',
+               'futures_open_interest_cash_margin_sum',
+               'futures_open_interest_crypto_margin_sum',
+               'futures_open_interest_crypto_margin_relative',
+               'futures_estimated_leverage_ratio',
+               'futures_volume_daily_sum',
+               'futures_volume_daily_perpetual_sum',
+               'futures_open_interest_sum',
+               'futures_open_interest_perpetual_sum',
+               'futures_liquidated_volume_short_sum',
+               'futures_liquidated_volume_short_mean',
+               'futures_liquidated_volume_long_sum',
+               'futures_liquidated_volume_long_mean',
+               'futures_liquidated_volume_long_relative',
+               'futures_volume_daily_sum_all',
+               'futures_volume_daily_perpetual_sum_all',
+               'futures_open_interest_sum_all',
+               'futures_open_interest_perpetual_sum_all',
+               'options_volume_daily_sum',
+               'options_open_interest_sum',
+               'options_open_interest_distribution',
+               'futures_open_interest_latest',
+               'futures_volume_daily_latest']
+
+Institutions = ['grayscale_holdings_sum',
+                'grayscale_flows_sum',
+                'grayscale_premium_percent',
+                'grayscale_aum_sum',
+                'grayscale_market_price_usd',
+                'purpose_etf_holdings_sum',
+                'purpose_etf_flows_sum',
+                'qbtc_holdings_sum',
+                'qbtc_flows_sum',
+                'qbtc_premium_percent',
+                'qbtc_aum_sum',
+                'qbtc_market_price_usd']
+
 urls = []
 
 for a in Addresses:
@@ -67,7 +175,7 @@ for b in Blockchain:
     urls += [URLS['Blockchain']+b]
 
 for d in Distribution:
-    urls += [URLS['Blockchain']+d]
+    urls += [URLS['Distribution']+d]
 
 for i in Indicators:
     urls += [URLS['Indicators']+i]
@@ -83,7 +191,13 @@ for t in Transactions:
 
 for m1 in Market:
     urls += [URLS['Market']+m1]
-    
+
+for m2 in Derivatives:
+    urls += [URLS['Derivatives']+m2]
+
+for m3 in Institutions:
+    urls += [URLS['Institutions']+m3]    
+
 Urls = dict()
 
 for u in urls:
