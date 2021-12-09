@@ -303,7 +303,7 @@ def predcition_analysis(Xdf,price,period,n_train):
     Y = []
     Prc = []
 
-    for i in stqdm(range(StridedMonths.shape[0]-1)):
+    for i in stqdm(range(StridedMonths.shape[0])):
 
         trainPeriod = list(StridedMonths[i][:-1])
         cvPeriod = StridedMonths[i][-1]
@@ -410,8 +410,20 @@ try:
             pred =  round(tomorrow,2)
             st.write('#### Prediction for tomorrow',f'{pred}%')
             st.write('#### Price prediction for tomorrow',f'{price.iloc[-1]*(1+pred/100)}%')
+            st.write('')
+            st.write('')
+            st.write('')
+            st.write('#### Forecast evaluation by regressing "Target" on "Estimated"')
+            X = sm.add_constant(Y['estimated'])
+            y = Y['Target']
+            mod = sm.OLS(y,X).fit()
+            st.write(mod.summary())
+            st.write('')
+            fig = px.scatter(x=Y['estimated'], y=Y['Target'],trendline="ols")
+            st.plotly_chart(fig, use_container_width=True)
+            st.write('X - axis: estimated')
+            st.write('Y - Realized')
 
-                  
 except URLError as e:
     st.error(
         """
