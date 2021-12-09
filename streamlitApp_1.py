@@ -20,14 +20,13 @@ sns.set()
 
 
 st.set_page_config(
-     page_title="DIY AI On-Chain BTC Prediction Generator",
+     page_title="DIY AI On-Chain BTC Predictions",
      page_icon="🤖",
-     layout="wide",
-     initial_sidebar_state="expanded",
+     layout="centered",
+     initial_sidebar_state="auto",
      menu_items={
          'Get Help': 'https://www.extremelycoolapp.com/help',
          'Report a bug': "https://www.extremelycoolapp.com/bug",
-         'Fundraising': "Reach out to us on Twitter @",
          'About': "# This is a header. This is an *extremely* cool app!"
      }
  )
