@@ -402,8 +402,8 @@ try:
             y=0.99,
             xanchor="left",
             x=0.01))
-            st.metric(label='Accuracy', value=f'{prc}%')
-    
+            #st.metric(label='Accuracy', value=f'{prc}%')
+            
             st.plotly_chart(f, use_container_width=True)
             prc = round(100*regression_cm(Y),2)
             st.write('#### Implied Precision:',f'{prc}%')
@@ -412,7 +412,10 @@ try:
             st.write('#### Prediction for tomorrow',f'{pred}%')
             st.write('#### Price prediction for tomorrow',f'{price.iloc[-1]*(1+pred/100)}%')
             st.write('')
-            st.write('')
+            col1, col2, col3 = st.columns(3)
+            col1.metric(label='Accuracy', value=f'{prc}%')
+            col2.metric(label="Today's Change Prediction", value=f'{pred}%')
+            col3.metric(label="Today's Price Prediction", value=f'{price.iloc[-1]*(1+pred/100)}%')
             st.write('')
             st.write('#### Forecast evaluation by regressing "Target" on "Estimated"')
             X = sm.add_constant(Y['estimated'])
