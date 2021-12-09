@@ -427,10 +427,10 @@ try:
             st.write('')
             #col1, col2, col3 = st.columns(3)
             #with col1:
-            st.metric(label='Accuracy', value=f'{prc}%')
+            #st.metric(label='Accuracy', value=f'{prc}%')
             st.write('')
             #with col2:
-            st.metric(label="Today's Change Prediction", value=f'{pred}%')
+            #st.metric(label="Today's Change Prediction", value=f'{pred}%')
             st.write('')
             #with col3:
             st.metric(label="Today's Price Prediction", value=f'{price.iloc[-1]*(1+pred/100)}%')
