@@ -402,7 +402,8 @@ try:
             y=0.99,
             xanchor="left",
             x=0.01))
-
+            st.metric('Accuracy', f'{prc}%')
+    
             st.plotly_chart(f, use_container_width=True)
             prc = round(100*regression_cm(Y),2)
             st.write('#### Implied Precision:',f'{prc}%')
