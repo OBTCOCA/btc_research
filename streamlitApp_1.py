@@ -413,9 +413,12 @@ try:
             st.write('#### Price prediction for tomorrow',f'{price.iloc[-1]*(1+pred/100)}%')
             st.write('')
             col1, col2, col3 = st.columns(3)
-            col1.metric(label='Accuracy', value=f'{prc}%')
-            col2.metric(label="Today's Change Prediction", value=f'{pred}%')
-            col3.metric(label="Today's Price Prediction", value=f'{price.iloc[-1]*(1+pred/100)}%')
+            with col1:
+                st.metric(label='Accuracy', value=f'{prc}%')
+            with col2:
+                st.metric(label="Today's Change Prediction", value=f'{pred}%')
+            with col3:
+                st.metric(label="Today's Price Prediction", value=f'{price.iloc[-1]*(1+pred/100)}%')
             st.write('')
             st.write('#### Forecast evaluation by regressing "Target" on "Estimated"')
             X = sm.add_constant(Y['estimated'])
