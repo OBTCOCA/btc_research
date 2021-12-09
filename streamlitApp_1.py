@@ -18,6 +18,19 @@ from SVR_FN import SVR_predictor,forecast_ols_evaluation,regression_cm
 
 sns.set()
 
+
+st.set_page_config(
+     page_title="DIY AI On-Chain BTC Predictions",
+     page_icon="🤖",
+     layout="centered",
+     initial_sidebar_state="auto",
+     #menu_items={
+     #    'Get Help': 'https://www.extremelycoolapp.com/help',
+     #    'Report a bug': "https://www.extremelycoolapp.com/bug",
+     #    'About': "# This is a header. This is an *extremely* cool app!"
+     #}
+ )
+
 #%%
 Addresses = ['count', 'sending_count','receiving_count', 
              'active_count','non_zero_count', 'min_1_count',
@@ -402,7 +415,8 @@ try:
             y=0.99,
             xanchor="left",
             x=0.01))
-
+            #st.metric(label='Accuracy', value=f'{prc}%')
+            
             st.plotly_chart(f, use_container_width=True)
             prc = round(100*regression_cm(Y),2)
             st.write('#### Implied Precision:',f'{prc}%')
@@ -411,7 +425,15 @@ try:
             st.write('#### Prediction for tomorrow',f'{pred}%')
             st.write('#### Price prediction for tomorrow',f'{price.iloc[-1]*(1+pred/100)}%')
             st.write('')
+            #col1, col2, col3 = st.columns(3)
+            #with col1:
+            st.metric(label='Accuracy', value=f'{prc}%')
             st.write('')
+            #with col2:
+            st.metric(label="Today's Change Prediction", value=f'{pred}%')
+            st.write('')
+            #with col3:
+            st.metric(label="Today's Price Prediction", value=f'{price.iloc[-1]*(1+pred/100)}%')
             st.write('')
             st.write('#### Forecast evaluation by regressing "Target" on "Estimated"')
             X = sm.add_constant(Y['estimated'])
