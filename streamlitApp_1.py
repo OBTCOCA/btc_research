@@ -24,11 +24,11 @@ st.set_page_config(
      page_icon="🤖",
      layout="centered",
      initial_sidebar_state="auto",
-     #menu_items={
-     #    'Get Help': 'https://www.extremelycoolapp.com/help',
-     #    'Report a bug': "https://www.extremelycoolapp.com/bug",
-     #    'About': "# This is a header. This is an *extremely* cool app!"
-     #}
+     menu_items={
+        'Get Help': 'https://www.extremelycoolapp.com/help',
+         'Report a bug': "https://www.extremelycoolapp.com/bug",
+         'About': "# This is a header. This is an *extremely* cool app!"
+     }
  )
 
 #%%
@@ -433,7 +433,7 @@ try:
             #st.metric(label="Today's Change Prediction", value=f'{pred}%')
             st.write('')
             #with col3:
-            st.write(st.metric(label="Today's Price Prediction", value=str(f'{price.iloc[-1]*(1+pred/100)}%')))
+            #st.write(st.metric(label="Today's Price Prediction", value=str(f'{price.iloc[-1]*(1+pred/100)}%')))
             st.write('')
             st.write('#### Forecast evaluation by regressing "Target" on "Estimated"')
             X = sm.add_constant(Y['estimated'])
