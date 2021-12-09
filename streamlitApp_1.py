@@ -22,7 +22,7 @@ sns.set()
 st.set_page_config(
      page_title="DIY AI On-Chain BTC Predictions",
      page_icon="🤖",
-     layout="centered",
+     layout="wide",
      initial_sidebar_state="auto",
      menu_items={
         'Get Help': 'https://www.extremelycoolapp.com/help',
