@@ -1,4 +1,4 @@
-#%%
+# %%
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -11,10 +11,11 @@ from statsmodels.tsa.stattools import adfuller
 from stqdm import stqdm
 
 import statsmodels.api as sm
+from scipy.stats import mode
 
 sns.set()
 
-#%%
+# %%
 def get_glassnode_price():
     GLASSNODE_API_KEY = '1vUcyF35hTk9awbNGszF0KcLuYH'
 
