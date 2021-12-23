@@ -427,7 +427,6 @@ try:
             st.write('')
             #col1, col2, col3 = st.columns(3)
             #with col1:
-<<<<<<< HEAD
             # st.metric(label='Accuracy', value=f'{prc}%')
             # st.write('')
             # #with col2:
@@ -435,7 +434,6 @@ try:
             # st.write('')
             # #with col3:
             # st.metric(label="Today's Price Prediction", value=f'{price.iloc[-1]*(1+pred/100)}%')
-=======
             #st.metric(label='Accuracy', value=f'{prc}%')
             st.write('')
             #with col2:
@@ -443,7 +441,6 @@ try:
             st.write('')
             #with col3:
             #st.write(st.metric(label="Today's Price Prediction", value=str(f'{price.iloc[-1]*(1+pred/100)}%')))
->>>>>>> 8376412e0996be69a46c3a8f7cdfbfe01fadfb72
             st.write('')
             st.write('#### Forecast evaluation by regressing "Target" on "Estimated"')
             X = sm.add_constant(Y['estimated'])
