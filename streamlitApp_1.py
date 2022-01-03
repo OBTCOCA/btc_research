@@ -17,7 +17,7 @@ import statsmodels.api as sm
 from SVR_FN import SVR_predictor,forecast_ols_evaluation,regression_cm
 
 sns.set()
-
+#%%
 
 st.set_page_config(
      page_title="DIY AI On-Chain BTC Predictions",
@@ -351,6 +351,16 @@ def predcition_analysis(Xdf,price,period,n_train):
 
     return Y,tomorrow
 
+def backtest(R,prediction):
+    df = pd.concat([R.rename('R'),prediction.shift(1).rename('pred')],axis=1).dropna()
+    sign_prediction = np.sign(df.pred)
+    sign_prediction.loc[sign_prediction<0] = 0
+
+    Ret = df.R/100
+
+    Cr = (1+sign_prediction*Ret).cumprod()
+    return Cr
+
 
 # +
 # price = get_glassnode_price()
@@ -452,6 +462,29 @@ try:
             st.plotly_chart(fig, use_container_width=True)
             st.write('X - axis: estimated')
             st.write('Y - Realized')
+            st.write('')
+            Y3 = Y.copy()
+            
+            Cr = backtest(Y3.Target,Y3.estimated)
+            BH = (1+Y3.Target/100).cumprod()
+
+            f1 = go.Figure()
+            f1.add_trace(go.Scatter(x=Y3.index, y=Cr,
+                                mode='lines',
+                                name='Strtegy'))
+            f1.add_trace(go.Scatter(x=Y3.index, y=BH,
+                                mode='lines',
+                                name='Buy & Hold'))
+
+            f1.update_layout(legend=dict(
+            yanchor="top",
+            y=0.99,
+            xanchor="left",
+            x=0.01))
+            #st.metric(label='Accuracy', value=f'{prc}%')
+            
+            st.plotly_chart(f1, use_container_width=True)
+
 
 except URLError as e:
     st.error(
