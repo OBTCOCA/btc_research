@@ -8,6 +8,7 @@ import seaborn as sns
 import plotly.express as px
 import plotly.graph_objects as go
 
+from hpfilter import hprescott
 from urllib.error import URLError
 from glassnode import *
 from statsmodels.tsa.stattools import adfuller
@@ -226,7 +227,7 @@ def strided_app(a, L, S ):  # Window len = L, Stride len/stepsize = S
     return np.lib.stride_tricks.as_strided(a, shape=(nrows,L), strides=(S*n,n))
 
 def hpwrap(x,pars):
-    _,trend = sm.tsa.filters.hpfilter(x,pars)
+    _,trend = hprescott(x,2,pars)
     return trend
 
 # @st.cache(show_spinner=True)
@@ -358,7 +359,7 @@ def backtest(R,prediction):
 
     Ret = df.R/100
 
-    Cr = (1+sign_prediction*Ret).cumprod()
+    Cr = (sign_prediction*Ret).cumsum()
     return Cr
 
 
@@ -466,12 +467,12 @@ try:
             Y3 = Y.copy()
             
             Cr = backtest(Y3.Target,Y3.estimated)
-            BH = (1+Y3.Target/100).cumprod()
+            BH = (Y3.Target/100).cumsum()
 
             f1 = go.Figure()
             f1.add_trace(go.Scatter(x=Y3.index, y=Cr,
                                 mode='lines',
-                                name='Strtegy'))
+                                name='Strategy'))
             f1.add_trace(go.Scatter(x=Y3.index, y=BH,
                                 mode='lines',
                                 name='Buy & Hold'))
