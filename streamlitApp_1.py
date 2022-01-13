@@ -96,7 +96,7 @@ Indicators = ['rhodl_ratio',
               'liveliness_account_based',
               'mvrv_account_based',
               'rcap_account_based',
-              'unrealized_profit_account_based'
+              'unrealized_profit_account_based',
               'unrealized_loss_account_based',
               'net_unrealized_profit_loss_account_based',
               'nupl_less_155_account_based',
