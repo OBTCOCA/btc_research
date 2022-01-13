@@ -169,7 +169,9 @@ Derivatives = ['futures_funding_rate_perpetual',
                'options_open_interest_sum',
                'options_open_interest_distribution',
                'futures_open_interest_latest',
-               'futures_volume_daily_latest']
+               'futures_volume_daily_latest',
+               'options_open_interest_put_call_ratio',
+               'options_volume_put_call_ratio']
 
 Institutions = ['grayscale_holdings_sum',
                 'grayscale_flows_sum',
