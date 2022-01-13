@@ -124,7 +124,11 @@ Indicators = ['rhodl_ratio',
               'sol_3y_5y',
               'sol_5y_7y',
               'sol_7y_10y',
-              'sol_more_10y']
+              'sol_more_10y',
+              'bvin',
+              'investor_capitalization',
+              'realized_profits_to_value_ratio',
+              'pi_cycle_top']
 
 Market = ['price_drawdown_relative','deltacap_usd', 'marketcap_usd', 'mvrv','mvrv_z_score']
 
