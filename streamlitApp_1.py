@@ -32,6 +32,8 @@ st.set_page_config(
      #}
  )
 st.title('On-Chain Prediction Generator')
+
+st.sidebar.markdown("## Select On-Chain Metrics and Training Time Frame")
 #%%
 Addresses = ['count', 'sending_count','receiving_count', 
              'active_count','non_zero_count', 'min_1_count',
@@ -379,7 +381,7 @@ def backtest(R,prediction):
 # +
 #%%
 try:
-    list_variables = st.multiselect("Choose on chain indicators", list(Urls.keys()), ["nvt", "msol"])
+    list_variables = st.sidebar.multiselect("Choose on chain indicators", list(Urls.keys()), ["nvt", "msol"])
     train_days = st.slider('Number of days to train?', 10,252)
     chart_start_year = st.slider('Start year for plotting results?', 2014,2021)
 
