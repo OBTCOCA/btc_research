@@ -439,7 +439,7 @@ try:
             st.plotly_chart(f, use_container_width=True)
             prc = round(100*regression_cm(Y),2)
             st.write('#### Implied Precision:',f'{prc}%')
-            st.metric('#### Implied Precision:',f'{prc}%')
+            #st.metric('#### Implied Precision:',f'{prc}%')
             st.write('')
             pred =  round(tomorrow,2)
             st.write('#### Prediction for tomorrow',f'{pred}%')
