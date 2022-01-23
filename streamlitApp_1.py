@@ -25,13 +25,13 @@ st.set_page_config(
      page_icon="🤖",
      layout="wide",
      initial_sidebar_state="auto",
-     #menu_items={
+     menu_items={
         #'Get Help': 'https://www.extremelycoolapp.com/help',
         #'Report a bug': "https://www.extremelycoolapp.com/bug",
         #'About': "# This is a header. This is an *extremely* cool app!"
-     #}
+     }
  )
-
+st.title('On-Chain Predidiction Generator')
 #%%
 Addresses = ['count', 'sending_count','receiving_count', 
              'active_count','non_zero_count', 'min_1_count',
