@@ -382,14 +382,14 @@ def backtest(R,prediction):
 #%%
 try:
     list_variables = st.sidebar.multiselect("Choose on chain indicators", list(Urls.keys()), ["nvt", "msol"])
-    train_days = st.slider('Number of days to train?', 10,252)
-    chart_start_year = st.slider('Start year for plotting results?', 2014,2021)
+    train_days = st.sidebar.slider('Number of days to train?', 10,252)
+    chart_start_year = st.sidebar.slider('Start year for plotting results?', 2014,2022)
 
     if not list_variables:
         st.error("Please select at least one indicators.")
     else:
         
-        if st.button('Train Model'):
+        if st.sidebar.button('Train Model'):
             st.write('Retreiving data and processing variables')
             try:
                 Xdf = get_glassnode_data(list_variables,Urls)
