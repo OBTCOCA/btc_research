@@ -31,7 +31,7 @@ st.set_page_config(
         'About': "# This is a header. This is an *extremely* cool app!"
      }
  )
-st.title('On-Chain Predidiction Generator')
+st.title('On-Chain Prediction Generator')
 #%%
 Addresses = ['count', 'sending_count','receiving_count', 
              'active_count','non_zero_count', 'min_1_count',
