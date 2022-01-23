@@ -444,6 +444,7 @@ try:
             st.write('#### Prediction for tomorrow',f'{pred}%')
             st.write('#### Price prediction for tomorrow',f'{price.iloc[-1]*(1+pred/100)}$')
             st.write('')
+            st.metric('Accuracy',f'{pred} %')
             #col1, col2, col3 = st.columns(3)
             #with col1:
             # st.metric(label='Accuracy', value=f'{prc}%')
@@ -508,3 +509,5 @@ except URLError as e:
 # -
 
 
+
+# %%
