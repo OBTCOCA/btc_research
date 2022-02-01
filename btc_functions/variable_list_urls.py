@@ -1,13 +1,6 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from tqdm.notebook import tqdm
-
-
-from urllib.error import URLError
-from glassnode import *
-
+from glassnode import URLS
 
 Addresses = ['count', 'sending_count','receiving_count', 
              'active_count','non_zero_count', 'min_1_count',
@@ -198,46 +191,3 @@ Urls = dict()
 
 for u in urls:
     Urls[u.split('/')[-1]] = u
-
-def get_glassnode_price():
-    GLASSNODE_API_KEY = '1vUcyF35hTk9awbNGszF0KcLuYH'
-
-    self = GlassnodeClient()
-    self.set_api_key(GLASSNODE_API_KEY)
-
-    url = URLS['Market'] + 'price_usd_ohlc'
-    a ='BTC'
-    c = 'native'
-    i='24h'
-
-    ohlc = self.get(url,a,i,c)
-    
-    return ohlc
-
-
-def get_glassnode_data(list_variables,Urls):
-    GLASSNODE_API_KEY = '1vUcyF35hTk9awbNGszF0KcLuYH'
-    
-    urls = []
-    
-    for i in list_variables:
-        urls.append(Urls[i])
-    
-    self = GlassnodeClient()
-    self.set_api_key(GLASSNODE_API_KEY)
-
-    features = []
-
-    for u in tqdm(urls):
-        a,c,i='BTC','native','24h'
-        z = self.get(u,a,i,c)
-
-        try:
-            features.append(z.rename(u.split('/')[-1]))
-        except:
-            message = f"cannot get {u.split('/')[-1]}."
-            print(message)
-
-    features = pd.concat(features,axis = 1)
-    features = features.loc['2013':]
-    return features
