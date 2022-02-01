@@ -1,4 +1,5 @@
-#%%
+# -*- coding: utf-8 -*-
+# %%
 import streamlit as st
 import pandas as pd
 import altair as alt
@@ -18,7 +19,7 @@ import statsmodels.api as sm
 from SVR_FN import SVR_predictor,forecast_ols_evaluation,regression_cm
 
 sns.set()
-#%%
+# %%
 
 st.set_page_config(
      page_title="DIY AI On-Chain BTC Predictions",
@@ -34,7 +35,7 @@ st.set_page_config(
 st.title('On-Chain Prediction Generator')
 
 st.sidebar.markdown("## Select On-Chain Metrics and Training Time Frame")
-#%%
+# %%
 Addresses = ['count', 'sending_count','receiving_count', 
              'active_count','non_zero_count', 'min_1_count',
              'min_10_count', 'min_100_count','min_1k_count', 
@@ -226,7 +227,7 @@ for u in urls:
     Urls[u.split('/')[-1]] = u
 
 
-#%%
+# %%
 #@st.cache
 
 def strided_app(a, L, S ):  # Window len = L, Stride len/stepsize = S
@@ -379,7 +380,7 @@ def backtest(R,prediction):
 # Y = predcition_analysis(Zdf,price,'%Y-%m-%d',120)
 
 # +
-#%%
+# %%
 try:
     list_variables = st.sidebar.multiselect("Choose on chain indicators", list(Urls.keys()), ["nvt", "msol"])
     train_days = st.sidebar.slider('Number of days to train?', 10,252)
