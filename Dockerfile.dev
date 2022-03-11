@@ -1,0 +1,12 @@
+FROM python:slim
+
+ENV TERM xterm-256color
+RUN apt-get update
+RUN apt-get install -y git
+RUN echo "export LS_OPTIONS='--color=auto'" >> ~/.bashrc
+RUN echo "eval \"\$(dircolors)\"" >> ~/.bashrc
+RUN echo "alias ls='ls $LS_OPTIONS'" >> ~/.bashrc
+RUN echo "alias ll='ls $LS_OPTIONS -l'" >> ~/.bashrc
+RUN echo "alias l='ls $LS_OPTIONS -lA'" >> ~/.bashrc
+RUN echo "alias la='ls $LS_OPTIONS -la'" >> ~/.bashrc
+RUN echo "alias lr='ls  $LS_OPTIONS -lart'" >> ~/.bashrc
