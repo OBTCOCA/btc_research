@@ -2,7 +2,7 @@ FROM python:slim
 
 ENV TERM xterm-256color
 RUN apt-get update
-RUN apt-get install -y git
+RUN apt-get install -y git gcc python3-dev
 RUN pip install --upgrade pip
 RUN pip install virtualenv
 RUN echo "alias ls='ls --color=auto'" >> ~/.bashrc
