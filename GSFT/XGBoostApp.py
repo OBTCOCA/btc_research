@@ -144,5 +144,12 @@ results = [
     for t in tqdm(range(M))]
 
 results = pd.concat(results,axis=0).sort_index()
+# %%
 print('accuracy:',accuracy_score(results.Target,results.y_hat_cv))
+
+
+cm = confusion_matrix(results.Target, results.y_hat_cv)  
+print('% 1:',cm[-1,2]/cm[:,2].sum())
+print('% -1:',cm[0,0]/cm[:,0].sum())
+print('% 0:',cm[1,1]/cm[:,1].sum())
 # %%

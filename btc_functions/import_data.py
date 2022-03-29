@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 
 
 from urllib.error import URLError
