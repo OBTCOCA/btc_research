@@ -13,3 +13,4 @@ stqdm==0.0.4
 # streamlit==0.84.1
 streamlit==1.7.0
 tqdm==4.63.0
+click==8.0.4
